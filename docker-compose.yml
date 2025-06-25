@@ -5,11 +5,11 @@ name: laravel-coolify
 services:
     app:
         build:
-            context: /home/iqbal
+            context: /home/iqbal/laravel-coolify
             dockerfile: Dockerfile
         working_dir: /var/www
         volumes:
-            - /home/iqbal:/var/www
+            - /home/iqbal/laravel-coolify:/var/www
         expose:
             - "9000"
         depends_on:
@@ -20,8 +20,8 @@ services:
         ports:
             - "8181:80"
         volumes:
-            - /home/iqbal:/var/www
-            - /home/iqbal/nginx/app.conf:/etc/nginx/conf.d/default.conf
+            - /home/iqbal/laravel-coolify:/var/www
+            - /home/iqbal/laravel-coolify/nginx/app.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - app
 
@@ -34,6 +34,10 @@ services:
             MYSQL_USER: laravel_coolify_user
             MYSQL_PASSWORD: laravel_coolify_pass
         volumes:
-            - /home/iqbal/mysql_data:/var/lib/mysql
+            - /home/iqbal/laravel-coolify/mysql_data:/var/lib/mysql
         expose:
             - "3306"
+
+volumes:
+    mysql_data:
+        driver: local
