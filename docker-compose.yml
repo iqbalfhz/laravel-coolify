@@ -2,39 +2,16 @@ version: "3.8"
 
 services:
     app:
-        image: php:8.3-fpm
+        build:
+            context: .
+            dockerfile: Dockerfile
         working_dir: /var/www
         volumes:
             - ./:/var/www
-            - ./storage:/var/www/storage
-        command: >
-            sh -c "
-              composer install --optimize-autoloader --no-dev &&
-              npm ci && npm run build &&
-              php artisan config:cache &&
-              php artisan route:cache &&
-              php artisan view:cache &&
-              php artisan storage:link &&
-              chmod -R ug+w storage bootstrap/cache &&
-              php-fpm
-            "
-        ports:
-            - "9000:9000"
-
-    version: "3.8"
-
-    services:
-        app:
-            build:
-            context: .
-            dockerfile: Dockerfile
-            working_dir: /var/www
-            volumes:
-                - ./:/var/www
-            expose:
-                - "9000"
-            depends_on:
-                - mysql
+        expose:
+            - "9000"
+        depends_on:
+            - mysql
 
     nginx:
         image: nginx:stable-alpine
@@ -50,14 +27,14 @@ services:
         image: mysql:8.0
         restart: always
         environment:
-        MYSQL_ROOT_PASSWORD: rootpassword
-        MYSQL_DATABASE: laravel_coolify_db
-        MYSQL_USER: laravel_coolify_user
-        MYSQL_PASSWORD: laravel_coolify_pass
+            MYSQL_ROOT_PASSWORD: rootpassword
+            MYSQL_DATABASE: laravel_coolify_db
+            MYSQL_USER: laravel_coolify_user
+            MYSQL_PASSWORD: laravel_coolify_pass
         volumes:
             - mysql_data:/var/lib/mysql
         expose:
             - "3306"
 
-    volumes:
-        mysql_data:
+volumes:
+    mysql_data:
