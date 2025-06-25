@@ -1,15 +1,13 @@
 version: "3.8"
 
-name: laravel-coolify
-
 services:
     app:
         build:
-            context: /home/iqbal/laravel-coolify
+            context: . # Gunakan path relatif
             dockerfile: Dockerfile
         working_dir: /var/www
         volumes:
-            - /home/iqbal/laravel-coolify:/var/www
+            - ./:/var/www
         expose:
             - "9000"
         depends_on:
@@ -20,8 +18,8 @@ services:
         ports:
             - "8181:80"
         volumes:
-            - /home/iqbal/laravel-coolify:/var/www
-            - /home/iqbal/laravel-coolify/nginx/app.conf:/etc/nginx/conf.d/default.conf
+            - ./:/var/www
+            - ./nginx/app.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - app
 
@@ -34,7 +32,7 @@ services:
             MYSQL_USER: laravel_coolify_user
             MYSQL_PASSWORD: laravel_coolify_pass
         volumes:
-            - /home/iqbal/laravel-coolify/mysql_data:/var/lib/mysql
+            - ./mysql_data:/var/lib/mysql
         expose:
             - "3306"
 
