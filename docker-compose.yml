@@ -1,5 +1,7 @@
 version: "3.8"
 
+name: laravel-coolify
+
 services:
     app:
         build:
@@ -35,7 +37,3 @@ services:
             - /home/iqbal/mysql_data:/var/lib/mysql
         expose:
             - "3306"
-
-volumes:
-    mysql_data:
-        driver: local
